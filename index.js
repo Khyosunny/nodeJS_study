@@ -2,6 +2,9 @@ const express = require('express')
 const app = express()
 const port = 5000
 const bodyParser = require('body-parser') // 클라이언트에서 오는 정보를 서버에서 분석해서 가져올 수있게 해주느거
+
+const config = require('./config/key')
+
 const { User } = require('./models/User')
 
 //application/x-www-form-urlencoded
@@ -12,15 +15,12 @@ app.use(bodyParser.json())
 
 const mongoose = require('mongoose')
 mongoose
-  .connect(
-    'mongodb+srv://kimhyosun:0218kim@boilerplate.bylj8.mongodb.net/boilerplate?retryWrites=true&w=majority',
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    },
-  )
+  .connect(config.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err))
 
